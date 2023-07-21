@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("News App Flutter Demo"),
+        title: const Text("News App Flutter Demo"),
       ),
       body: Consumer<NewsProvider>(
         builder: (context, provider, child) {

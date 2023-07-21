@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class Source extends Equatable {
-  Source({
+  const Source({
     required this.id,
     required this.name,
   });

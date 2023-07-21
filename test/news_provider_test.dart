@@ -1,3 +1,5 @@
+
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:medium_flutter_unit_testing/model/article.dart';
 import 'package:medium_flutter_unit_testing/model/source.dart';
@@ -9,7 +11,9 @@ import 'package:mockito/mockito.dart';
 import 'news_provider_test.mocks.dart';
 
 @GenerateMocks([NewsApiService])
-void main() {
+
+void main () {
+
   late MockNewsApiService mockNewsApiService;
   late NewsProvider newsProvider;
   int listenCount = 0;
@@ -25,7 +29,7 @@ void main() {
 
   final articles = [
     Article(
-      source: Source(id: null, name: "ReadWrite"),
+      source: const Source(id: null, name: "ReadWrite"),
       author: "Chris Gale",
       title: "What Drives Choosing Flutter Over React Native?",
       description: "For those looking at open-source options",
@@ -38,28 +42,38 @@ void main() {
     )
   ];
 
-  test(
-      'should change state into success, and articles variable should be filled',
-      () async {
-    // arrange
-    when(mockNewsApiService.fetchArticle()).thenAnswer((_) async => articles);
-    // act
-    await newsProvider.loadNews();
-    // assert
-    expect(newsProvider.state, equals(ResultState.success));
-    expect(newsProvider.articles, equals(articles));
-    expect(listenCount, equals(2));
-    verify(mockNewsApiService.fetchArticle());
-  });
+  group('new_provider_test', () {
+    test('status should change to done when the articles are filled', 
+    () async {
 
-  test('should change state into error', () async {
-    // arrange
-    when(mockNewsApiService.fetchArticle()).thenThrow(Error());
-    // act
-    await newsProvider.loadNews();
-    // assert
+      //arrange
+      when( mockNewsApiService.fetchArticle().then((_) async => articles));
+
+      //act
+      await newsProvider.loadNews();
+
+      //assert
+      expect(newsProvider.state, equals(ResultState.success));
+      expect(newsProvider.articles, equals(articles));
+      expect(listenCount, equals(2));
+      verify(mockNewsApiService.fetchArticle());
+
+    });
+
+   test('should change state into error', () {
+
+    //arrange
+    when(mockNewsApiService.fetchArticle().then((_) => throw "some error"));
+
+    //act
+    newsProvider.loadNews();
+
+    //assert
     expect(newsProvider.state, equals(ResultState.failed));
     expect(listenCount, equals(2));
     verify(mockNewsApiService.fetchArticle());
-  });
+    
+   });
+   });
+
 }

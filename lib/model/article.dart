@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:medium_flutter_unit_testing/model/source.dart';
 
 class Article extends Equatable {
-  Article({
+  const Article({
     required this.source,
     required this.author,
     required this.title,
