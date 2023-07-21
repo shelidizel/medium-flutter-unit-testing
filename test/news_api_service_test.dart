@@ -63,8 +63,8 @@ void main(){
    () async {
 
     //arrange
-    when(mockClient.get(uri)
-        .then((_) async => http.Response(jsonString, 200)));
+    when(mockClient.get(uri))
+    .thenAnswer((_) async => http.Response(jsonString, 200));
 
     //act
     var result = await newsApiService.fetchArticle();
@@ -78,8 +78,8 @@ void main(){
    test('should throw an error when the statuscode is not 200',
     () {
       //arrange
-      when(mockClient.get(uri)
-        .then((_) async => http.Response('', 404)));
+      when(mockClient.get(uri))
+      .thenAnswer((_) async => http.Response('', 404));
 
       //act
       final call = newsApiService.fetchArticle();

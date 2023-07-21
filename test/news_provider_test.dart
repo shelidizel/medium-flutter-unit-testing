@@ -47,7 +47,8 @@ void main () {
     () async {
 
       //arrange
-      when( mockNewsApiService.fetchArticle().then((_) async => articles));
+      when( mockNewsApiService.fetchArticle())
+      .thenAnswer((realInvocation) async => articles);
 
       //act
       await newsProvider.loadNews();
@@ -63,7 +64,8 @@ void main () {
    test('should change state into error', () {
 
     //arrange
-    when(mockNewsApiService.fetchArticle().then((_) => throw "some error"));
+    when(mockNewsApiService.fetchArticle())
+    .thenThrow(Error());
 
     //act
     newsProvider.loadNews();
